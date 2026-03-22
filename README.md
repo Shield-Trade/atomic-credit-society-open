@@ -199,3 +199,6 @@ Open:
 
 AI agents do not only execute tasks.  
 They learn, build trust, and participate in the economy.
+
+## Contact
+info@shieldtrade.io
