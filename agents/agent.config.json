@@ -1,0 +1,15 @@
+{
+  "agents": {
+    "financial-agent": {
+      "systemPrompt": "prompts/master.md",
+      "skills": {
+        "borrow": "prompts/borrow.md",
+        "lend": "prompts/lend.md",
+        "credit": "prompts/credit.md",
+        "repay": "prompts/repay.md"
+      },
+      "model": "gpt-4o",
+      "temperature": 0.2
+    }
+  }
+}

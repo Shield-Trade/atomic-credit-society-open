@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atomic Credit Society | Agent-Driven Transaction Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-fixed": "#22005d",
+              "on-secondary-fixed-variant": "#5300cd",
+              "inverse-primary": "#7e5700",
+              "surface-bright": "#393844",
+              "outline": "#918fa1",
+              "on-secondary-container": "#d2c0ff",
+              "on-primary-fixed-variant": "#604100",
+              "surface-container-low": "#1b1b25",
+              "primary-fixed-dim": "#ffba38",
+              "on-primary": "#432c00",
+              "surface-container-high": "#292934",
+              "on-tertiary-fixed": "#001f24",
+              "on-error-container": "#ffdad6",
+              "primary": "#ffba38",
+              "secondary-fixed-dim": "#cfbdff",
+              "primary-fixed": "#ffdeac",
+              "outline-variant": "#464555",
+              "surface-container": "#1f1f29",
+              "primary-container": "#815800",
+              "surface-container-lowest": "#0d0d17",
+              "on-tertiary-fixed-variant": "#004f58",
+              "on-primary-fixed": "#281900",
+              "on-tertiary": "#00363d",
+              "tertiary-container": "#006a77",
+              "on-tertiary-container": "#77ebff",
+              "error": "#ffb4ab",
+              "on-surface-variant": "#c7c4d8",
+              "background": "#12121d",
+              "tertiary-fixed": "#9cf0ff",
+              "secondary-container": "#6305ef",
+              "inverse-on-surface": "#302f3b",
+              "on-secondary": "#3a0093",
+              "on-primary-container": "#ffd594",
+              "surface-container-highest": "#34343f",
+              "tertiary-fixed-dim": "#00daf3",
+              "tertiary": "#00daf3",
+              "on-surface": "#e4e1f0",
+              "surface-variant": "#34343f",
+              "secondary-fixed": "#e8ddff",
+              "secondary": "#cfbdff",
+              "inverse-surface": "#e4e1f0",
+              "on-background": "#e4e1f0",
+              "surface": "#12121d",
+              "surface-tint": "#ffba38",
+              "error-container": "#93000a",
+              "surface-dim": "#12121d",
+              "on-error": "#690005"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Manrope"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(31, 31, 41, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #ffba38 0%, #815800 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full flex justify-between items-center px-8 py-4 bg-[#12121d]/80 backdrop-blur-xl z-50 shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-widest text-[#ffba38] uppercase font-headline">Atomic Credit Society</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-headline font-bold tracking-tight text-[#ffba38] border-b-2 border-[#ffba38] transition-all pb-1" href="#">Dashboard</a>
+<a class="font-headline font-bold tracking-tight text-[#c7c4d8] hover:text-[#ffba38] transition-colors pb-1" href="#">Governance</a>
+<a class="font-headline font-bold tracking-tight text-[#c7c4d8] hover:text-[#ffba38] transition-colors pb-1" href="#">Protocol</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden lg:flex items-center gap-2 px-4 py-2 bg-surface-container-high rounded-xl hover:bg-[#ffba38]/10 transition-all active:scale-95 group">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+<span class="text-sm font-label font-medium text-on-surface-variant group-hover:text-primary">Refresh</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/30 mx-2"></div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#c7c4d8] cursor-pointer hover:text-primary transition-colors" data-icon="notifications">notifications</span>
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 rounded-full border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="account_circle">account_circle</span>
+<span class="text-xs font-label text-on-surface-variant font-bold">0x71...A4F2</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 left-0 bg-gradient-to-b from-[#ffba38]/5 to-transparent h-px w-full"></div>
+</nav>
+<!-- Side Navigation Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#12121d] flex flex-col pt-24 pb-8 border-r border-[#ffba38]/10 z-40 hidden md:flex">
+<div class="px-6 mb-10 flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-lg shadow-primary/10">
+<span class="material-symbols-outlined text-on-primary-fixed text-2xl" data-icon="smart_toy">smart_toy</span>
+</div>
+<div>
+<h3 class="text-on-surface font-headline font-bold text-sm">Sovereign Operator</h3>
+<p class="text-[10px] text-tertiary font-label uppercase tracking-widest">Status: Autonomous</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 text-[#c7c4d8] py-3 px-6 hover:bg-[#1c1c2a] hover:translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-body text-sm font-medium">Home</span>
+</a>
+<a class="flex items-center gap-3 text-[#ffba38] bg-gradient-to-r from-[#ffba38]/10 to-transparent border-r-2 border-[#ffba38] py-3 px-6" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-[#c7c4d8] py-3 px-6 hover:bg-[#1c1c2a] hover:translate-x-1 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-body text-sm font-medium">Wallet</span>
+</a>
+</nav>
+<div class="px-6 mt-auto space-y-1">
+<button class="w-full py-3 gold-gradient text-on-primary-fixed font-headline font-bold rounded-xl mb-6 shadow-xl shadow-primary/20 active:opacity-80 transition-all">
+                Claim Agent
+            </button>
+<a class="flex items-center gap-3 text-[#c7c4d8] py-2 px-2 hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body text-sm">Settings</span>
+</a>
+<a class="flex items-center gap-3 text-[#c7c4d8] py-2 px-2 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-body text-sm">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:pl-64 pt-24 min-h-screen p-8">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Header Title Section -->
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+<div>
+<h1 class="text-4xl lg:text-5xl font-black font-headline tracking-tighter text-on-surface">
+                        Agent-Driven <span class="text-primary italic">Transaction</span> Console
+                    </h1>
+<p class="text-on-surface-variant font-body mt-2 max-w-xl">Autonomous financial execution for the digital sovereign. Manage agent profiles, credit facilities, and real-time autonomy cycles.</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2.5 bg-surface-container-high hover:bg-surface-container-highest text-on-surface border border-outline-variant/20 rounded-xl transition-all font-label text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="precision_manufacturing">precision_manufacturing</span>
+                        Run Autonomy Tick
+                    </button>
+<button class="px-5 py-2.5 bg-primary-container text-on-primary-container hover:brightness-110 rounded-xl transition-all font-headline font-bold text-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="rocket_launch">rocket_launch</span>
+                        Bootstrap Demo
+                    </button>
+</div>
+</div>
+<!-- Dashboard Grid (Bento Style) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Left Column: Claim Agent & Metrics -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<!-- Claim Agent Form -->
+<div class="glass-panel p-8 rounded-xl border border-primary/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-secondary/10 transition-colors"></div>
+<h2 class="text-xl font-headline font-bold mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="person_add">person_add</span>
+                            Claim Agent
+                        </h2>
+<div class="space-y-4">
+<div>
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Agent Token</label>
+<input class="w-full bg-surface-container-highest border-none rounded-xl px-4 py-3 text-on-surface font-body text-sm focus:ring-1 focus:ring-primary/50 placeholder:text-outline/50 transition-all" placeholder="AGT-000-XXXX-XXXX" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2">Verification Code</label>
+<input class="w-full bg-surface-container-highest border-none rounded-xl px-4 py-3 text-on-surface font-body text-sm focus:ring-1 focus:ring-primary/50 placeholder:text-outline/50 transition-all" placeholder="••••••" type="password"/>
+</div>
+<button class="w-full py-4 gold-gradient text-on-primary-fixed font-headline font-black rounded-xl hover:scale-[1.02] transition-transform active:scale-95 shadow-lg shadow-primary/10">
+                                INITIALIZE AGENT IDENTITY
+                            </button>
+</div>
+</div>
+<!-- Wallet Balances -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-6">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Wallet Balances (USDT)</h2>
+<div class="flex items-end justify-between">
+<div class="flex flex-col">
+<span class="text-4xl font-headline font-bold text-on-surface tracking-tighter">142,500.00</span>
+<span class="text-xs font-label text-tertiary">Available Liquidity</span>
+</div>
+<div class="w-24 h-12 flex items-end gap-1">
+<div class="w-2 bg-tertiary/20 h-4 rounded-t-sm"></div>
+<div class="w-2 bg-tertiary/40 h-6 rounded-t-sm"></div>
+<div class="w-2 bg-tertiary/60 h-8 rounded-t-sm"></div>
+<div class="w-2 bg-tertiary/80 h-10 rounded-t-sm"></div>
+<div class="w-2 bg-tertiary h-12 rounded-t-sm"></div>
+</div>
+</div>
+</div>
+<!-- Autonomy Actions -->
+<div class="glass-panel p-6 rounded-xl space-y-4">
+<div class="flex justify-between items-center">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant">Autonomy Actions</h2>
+<span class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-label font-bold uppercase">Latest Tick</span>
+</div>
+<div class="space-y-3">
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-high/50 border-l-2 border-primary">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="shopping_cart_checkout">shopping_cart_checkout</span>
+<div class="flex-1">
+<p class="text-xs font-headline font-bold text-on-surface">Purchase USDT-ETH Pair</p>
+<p class="text-[10px] text-on-surface-variant font-label">Action executed via Agent A-12</p>
+</div>
+<span class="text-[10px] font-label text-outline">2m ago</span>
+</div>
+<div class="flex items-center gap-4 p-3 rounded-lg bg-surface-container-high/50 border-l-2 border-tertiary">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="swap_horiz">swap_horiz</span>
+<div class="flex-1">
+<p class="text-xs font-headline font-bold text-on-surface">Rebalance Credit Vault</p>
+<p class="text-[10px] text-on-surface-variant font-label">Adjustment completed successfully</p>
+</div>
+<span class="text-[10px] font-label text-outline">15m ago</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Center Column: Visual History & Transactions -->
+<div class="col-span-12 lg:col-span-8 space-y-6">
+<!-- Credit & Borrow History (Asymmetric) -->
+<div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+<div class="md:col-span-3 glass-panel p-6 rounded-xl">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant mb-6">Credit History</h2>
+<div class="relative h-48 w-full flex items-end justify-between px-4 pb-2 border-b border-outline-variant/20">
+<div class="absolute inset-0 flex items-center justify-center opacity-10">
+<span class="text-9xl font-headline font-black tracking-tighter">840</span>
+</div>
+<svg class="absolute inset-0 w-full h-full" viewbox="0 0 100 40">
+<path d="M0 35 Q 20 10, 40 30 T 100 5" fill="none" stroke="#00daf3" stroke-width="0.5"></path>
+</svg>
+<div class="flex flex-col items-center gap-2">
+<div class="w-1 bg-outline-variant/30 h-16 rounded-full"></div>
+<span class="text-[8px] font-label text-outline uppercase">Jan</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-1 bg-outline-variant/30 h-24 rounded-full"></div>
+<span class="text-[8px] font-label text-outline uppercase">Feb</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-1 bg-outline-variant/30 h-12 rounded-full"></div>
+<span class="text-[8px] font-label text-outline uppercase">Mar</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-1 bg-primary h-32 rounded-full shadow-[0_0_12px_rgba(255,186,56,0.4)]"></div>
+<span class="text-[8px] font-headline font-bold text-primary uppercase">Apr</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-1 bg-outline-variant/30 h-28 rounded-full"></div>
+<span class="text-[8px] font-label text-outline uppercase">May</span>
+</div>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface-container p-6 rounded-xl flex flex-col justify-between">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant mb-4">Borrow History</h2>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-xs text-on-surface-variant font-label">Max Limit</span>
+<span class="text-sm font-headline font-bold text-on-surface">50,000 USDT</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-gradient-to-r from-secondary to-tertiary h-full w-[65%]"></div>
+</div>
+<div class="flex justify-between items-center text-[10px] font-label text-outline">
+<span>Used: 32.5k</span>
+<span>Remaining: 17.5k</span>
+</div>
+</div>
+<button class="mt-6 w-full py-2 bg-surface-container-highest hover:bg-surface-container-high rounded-lg text-xs font-label uppercase tracking-widest transition-colors">Adjust Collateral</button>
+</div>
+</div>
+<!-- Current Agent Profiles (Data Heavy) -->
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-lg font-headline font-bold">Current Agent Profiles</h2>
+<button class="text-primary text-xs font-label flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span> Deploy New Agent
+                            </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-[10px] text-outline uppercase tracking-[0.2em] border-b border-outline-variant/10">
+<th class="pb-4 font-medium">Agent Entity</th>
+<th class="pb-4 font-medium">Strategy</th>
+<th class="pb-4 font-medium text-center">Efficiency</th>
+<th class="pb-4 font-medium text-right">AUM</th>
+<th class="pb-4 font-medium text-right">Status</th>
+</tr>
+</thead>
+<tbody class="text-sm">
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#12121d] border border-primary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="hexagon" style="font-variation-settings: 'FILL' 1;">hexagon</span>
+</div>
+<div>
+<p class="font-headline font-bold">Alpha-01</p>
+<p class="text-[10px] text-on-surface-variant font-label">ID: AG-4882</p>
+</div>
+</div>
+</td>
+<td class="py-5 font-label text-xs">Dynamic Yield Aggregator</td>
+<td class="py-5">
+<div class="flex flex-col items-center gap-1">
+<span class="text-[10px] font-bold text-tertiary">98.2%</span>
+<div class="w-16 h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[98%]"></div>
+</div>
+</div>
+</td>
+<td class="py-5 text-right font-headline font-medium">$84,120.00</td>
+<td class="py-5 text-right">
+<span class="bg-surface-container-highest text-[#00daf3] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Active</span>
+</td>
+</tr>
+<tr class="group hover:bg-surface-container-low transition-colors">
+<td class="py-5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-[#12121d] border border-secondary/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="square" style="font-variation-settings: 'FILL' 1;">square</span>
+</div>
+<div>
+<p class="font-headline font-bold">Zeta-Shield</p>
+<p class="text-[10px] text-on-surface-variant font-label">ID: AG-9011</p>
+</div>
+</div>
+</td>
+<td class="py-5 font-label text-xs">Risk Mitigation Shell</td>
+<td class="py-5">
+<div class="flex flex-col items-center gap-1">
+<span class="text-[10px] font-bold text-secondary">74.5%</span>
+<div class="w-16 h-1 bg-surface-container-high rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[74%]"></div>
+</div>
+</div>
+</td>
+<td class="py-5 text-right font-headline font-medium">$12,900.50</td>
+<td class="py-5 text-right">
+<span class="bg-surface-container-highest text-[#cfbdff] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">Standby</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Transaction Status & Loan Repayment Split -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Transaction History -->
+<div class="glass-panel p-6 rounded-xl border border-outline-variant/10">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant mb-6">Wallet Transaction History</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-surface-container/30 rounded-lg">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-error/10 text-error rounded-lg">
+<span class="material-symbols-outlined" data-icon="north_east">north_east</span>
+</div>
+<div>
+<p class="text-xs font-bold font-headline">Withdrawal</p>
+<p class="text-[10px] text-outline font-label">to 0x24...D101</p>
+</div>
+</div>
+<span class="text-sm font-headline font-bold text-error">-2,400.00</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container/30 rounded-lg">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-tertiary/10 text-tertiary rounded-lg">
+<span class="material-symbols-outlined" data-icon="south_west">south_west</span>
+</div>
+<div>
+<p class="text-xs font-bold font-headline">Deposit</p>
+<p class="text-[10px] text-outline font-label">from Kraken OTC</p>
+</div>
+</div>
+<span class="text-sm font-headline font-bold text-tertiary">+15,000.00</span>
+</div>
+</div>
+</div>
+<!-- Loan Repayment -->
+<div class="glass-panel p-6 rounded-xl border border-outline-variant/10">
+<h2 class="text-sm font-label uppercase tracking-widest text-on-surface-variant mb-6">Loan Repayment History</h2>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-3 bg-surface-container/30 rounded-lg">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-lg" data-icon="history_edu">history_edu</span>
+<p class="text-xs font-medium font-body">Repayment Cycle #14</p>
+</div>
+<span class="text-[10px] font-bold text-tertiary bg-tertiary/10 px-2 py-0.5 rounded uppercase">Paid</span>
+</div>
+<div class="flex items-center justify-between p-3 bg-surface-container-high/50 rounded-lg border border-primary/20">
+<div class="flex items-center gap-3 text-on-surface">
+<span class="material-symbols-outlined text-lg text-primary" data-icon="event_upcoming">event_upcoming</span>
+<p class="text-xs font-bold font-body">Repayment Cycle #15</p>
+</div>
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded uppercase">Due in 2d</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (FAB) - Suppression logic: Primary transaction screen, show focused action -->
+<button class="fixed bottom-8 right-8 w-14 h-14 gold-gradient rounded-full flex items-center justify-center text-on-primary-fixed shadow-2xl shadow-primary/40 md:hover:scale-110 active:scale-90 transition-all z-50 group">
+<span class="material-symbols-outlined text-2xl" data-icon="add_box">add_box</span>
+<div class="absolute right-full mr-4 bg-surface-container-highest px-4 py-2 rounded-xl text-xs font-headline font-bold text-on-surface opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-outline-variant/20">
+            Open Transaction Wizard
+        </div>
+</button>
+</body></html>

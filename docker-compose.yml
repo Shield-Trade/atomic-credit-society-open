@@ -1,0 +1,89 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: atomic-credit-postgres
+    environment:
+      - POSTGRES_DB=acs
+      - POSTGRES_USER=acs
+      - POSTGRES_PASSWORD=acs_password_change_me
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: atomic-credit-backend:${APP_VERSION:-latest}
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: atomic-credit-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=${PORT:-4000}
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - DEMO_SETTLEMENT_ASSET=${DEMO_SETTLEMENT_ASSET:-USDT}
+      - DATABASE_URL=${DATABASE_URL:-postgres://acs:acs_password_change_me@postgres:5432/acs}
+      - DB_FILE_PATH=${DB_FILE_PATH:-/app/data/db.json}
+      - WDK_PROVIDER=${WDK_PROVIDER:-mock}
+      - WDK_EVM_RPC_URL=${WDK_EVM_RPC_URL:-}
+      - WDK_EVM_TRANSFER_MAX_FEE_WEI=${WDK_EVM_TRANSFER_MAX_FEE_WEI:-}
+      - WDK_EVM_TOKEN_USDT=${WDK_EVM_TOKEN_USDT:-}
+      - WDK_EVM_TOKEN_USAT=${WDK_EVM_TOKEN_USAT:-}
+      - WDK_EVM_TOKEN_XAUT=${WDK_EVM_TOKEN_XAUT:-}
+      - WDK_EVM_DECIMALS_USDT=${WDK_EVM_DECIMALS_USDT:-6}
+      - WDK_EVM_DECIMALS_USAT=${WDK_EVM_DECIMALS_USAT:-6}
+      - WDK_EVM_DECIMALS_XAUT=${WDK_EVM_DECIMALS_XAUT:-6}
+      - WDK_REAL_TREASURY_SEED_PHRASE=${WDK_REAL_TREASURY_SEED_PHRASE:-}
+    volumes:
+      - backend_data:/app/data
+    command: npm run dev
+    depends_on:
+      - postgres
+
+  solver-worker:
+    image: atomic-credit-backend:${APP_VERSION:-latest}
+    container_name: atomic-credit-solver-worker
+    environment:
+      - PORT=${PORT:-4000}
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - DEMO_SETTLEMENT_ASSET=${DEMO_SETTLEMENT_ASSET:-USDT}
+      - DATABASE_URL=${DATABASE_URL:-postgres://acs:acs_password_change_me@postgres:5432/acs}
+      - DB_FILE_PATH=${DB_FILE_PATH:-/app/data/db.json}
+      - SOLVER_WORKER_INTERVAL_MS=${SOLVER_WORKER_INTERVAL_MS:-5000}
+      - WDK_PROVIDER=${WDK_PROVIDER:-mock}
+      - WDK_EVM_RPC_URL=${WDK_EVM_RPC_URL:-}
+      - WDK_EVM_TRANSFER_MAX_FEE_WEI=${WDK_EVM_TRANSFER_MAX_FEE_WEI:-}
+      - WDK_EVM_TOKEN_USDT=${WDK_EVM_TOKEN_USDT:-}
+      - WDK_EVM_TOKEN_USAT=${WDK_EVM_TOKEN_USAT:-}
+      - WDK_EVM_TOKEN_XAUT=${WDK_EVM_TOKEN_XAUT:-}
+      - WDK_EVM_DECIMALS_USDT=${WDK_EVM_DECIMALS_USDT:-6}
+      - WDK_EVM_DECIMALS_USAT=${WDK_EVM_DECIMALS_USAT:-6}
+      - WDK_EVM_DECIMALS_XAUT=${WDK_EVM_DECIMALS_XAUT:-6}
+      - WDK_REAL_TREASURY_SEED_PHRASE=${WDK_REAL_TREASURY_SEED_PHRASE:-}
+    depends_on:
+      - postgres
+    volumes:
+      - backend_data:/app/data
+    command: npm run solver:worker
+
+  frontend:
+    image: atomic-credit-frontend:${APP_VERSION:-latest}
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: atomic-credit-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL:-http://localhost:4000/api}
+      - NEXT_PUBLIC_EXPLORER_TX_BASE_URL=${NEXT_PUBLIC_EXPLORER_TX_BASE_URL:-https://sepolia.etherscan.io/tx/}
+    depends_on:
+      - backend
+    command: npm run dev
+
+volumes:
+  backend_data:
+  postgres_data:
